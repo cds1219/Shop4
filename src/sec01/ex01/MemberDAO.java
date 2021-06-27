@@ -58,7 +58,7 @@ public class MemberDAO {
 			String pw = m.getPw();
 			String name = m.getName();
 			String address = m.getAddress();
-			String query = "INSERT INTO t_member(id, pw, name, address)" + " VALUES(?, ? ,? ,?)";
+			String query = "INSERT INTO users(id, pw, name, address)" + " VALUES(?, ? ,? ,?)";
 			System.out.println(query);
 			pstmt = conn.prepareStatement(query);	//ps객체 생성 & SQL문 전달
 			pstmt.setString(1, id);

@@ -55,6 +55,6 @@ request.setCharacterEncoding("UTF-8");
 </c:when>
 </c:choose>
    </table>  
- <a href="#"><p class="cls2">회원 가입하기</p></a>
+ <a href="${contextPath}/member/memberForm.do"><p class="cls2">회원 가입하기</p></a>
 </body>
 </html>

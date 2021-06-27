@@ -10,16 +10,12 @@ public class MemberVO {
 		System.out.println("MemberVO 생성자 호출");
 	}
 	
-	
-
 	public MemberVO(String id, String pw, String name, String address) {
-		super();
-		this.id = id;
-		this.pw = pw;
-		this.name = name;
-		this.address = address;
+		setId(id);
+		setPw(pw);
+		setName(name);
+		setAddress(address);
 	}
-
 
 
 	public String getId() {
@@ -27,7 +23,11 @@ public class MemberVO {
 	}
 
 	public void setId(String id) {
-		this.id = id;
+		if(id!=null) {
+			this.id = id;
+		}else {
+			System.out.println("id를 입력해주세요.");
+		}
 	}
 
 	public String getPw() {
@@ -35,7 +35,11 @@ public class MemberVO {
 	}
 
 	public void setPw(String pw) {
-		this.pw = pw;
+		if(id!=null) {
+			this.pw = pw;
+		}else {
+			System.out.println("pw를 입력해주세요.");
+		}
 	}
 
 	public String getName() {
@@ -43,7 +47,11 @@ public class MemberVO {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		if(id!=null) {
+			this.name = name;
+		}else {
+			System.out.println("name를 입력해주세요.");
+		}
 	}
 
 	public String getAddress() {
@@ -51,7 +59,11 @@ public class MemberVO {
 	}
 
 	public void setAddress(String address) {
-		this.address = address;
+		if(id!=null) {
+			this.address = address;
+		}else {
+			System.out.println("address를 입력해주세요.");
+		}
 	}
 
 	
