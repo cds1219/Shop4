@@ -23,7 +23,7 @@
 	    obj.submit();
      }
  
-	 function fn_enable(obj){
+	 function fn_enable(obj){	//수정하기 클릭 시 텍스트 박스 활성화
 		 document.getElementById("i_title").disabled=false;
 		 document.getElementById("i_content").disabled=false;
 		 document.getElementById("i_imageFileName").disabled=false;
@@ -31,7 +31,7 @@
 		 document.getElementById("tr_btn").style.display="none";
 	 }
 	 
-	 function fn_modify_article(obj){
+	 function fn_modify_article(obj){	//수정반영하기 클릭 시 컨트롤러에 수정 테이터 전송
 		 obj.action="${contextPath}/board/modArticle.do";
 		 obj.submit();
 	 }
@@ -70,7 +70,7 @@
    </td>
    <td >
     <input type="text"  value="${article.articleNO }"  disabled />
-    <input type="hidden" name="articleNO" value="${article.articleNO}"  />
+    <input type="hidden" name="articleNO" value="${article.articleNO}"  />	<!-- 글수정 시 글번호를 컨트롤러로 전송하기 위해 미리 히든태그에 글번호 저장 -->
    </td>
   </tr>
   <tr>
@@ -104,13 +104,13 @@
       이미지
    </td>
    <td>
-     <input  type= "hidden"   name="originalFileName" value="${article.imageFileName }" />	<!-- hidden태그에 imageFileName 저장 -->
+     <input  type= "hidden"   name="originalFileName" value="${article.imageFileName }" />	<!-- 이미지 수정에 대비해 hidden태그에 imageFileName 저장 -->
     <img src="${contextPath}/download.do?articleNO=${article.articleNO}&imageFileName=${article.imageFileName}" id="preview"  /><br>
        <!-- 파일다운로드컨트롤러 서블릿에 이미지파일이름과 글번호를 전송해 이미지를 표시 -->
    </td>   
   </tr>  
   <tr>
-    <td>
+    <td>	<!-- 수정된 이미지 파일 이름 전송 -->
        <input  type="file"  name="imageFileName " id="i_imageFileName"   disabled   onchange="readURL(this);"   />
     </td>
   </tr>

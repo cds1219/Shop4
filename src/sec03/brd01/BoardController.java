@@ -98,6 +98,37 @@ public class BoardController extends HttpServlet {
 				request.setAttribute("article",articleVO);	//article 속성으로 바인딩
 				nextPage = "/board01/viewArticle.jsp";
 			
+			} else if (action.equals("/modArticle.do")) {
+				Map<String, String> articleMap = upload(request, response);
+				int articleNO = Integer.parseInt(articleMap.get("articleNO"));
+				articleVO.setArticleNO(articleNO);
+				String title = articleMap.get("title");
+				String content = articleMap.get("content");
+				String imageFileName = articleMap.get("imageFileName");
+				articleVO.setParentNO(0);
+				articleVO.setId("hong");
+				articleVO.setTitle(title);
+				articleVO.setContent(content);
+				articleVO.setImageFileName(imageFileName);
+				boardService.modArticle(articleVO);	//전송된 글정보로 글 수정
+				
+				if (imageFileName != null && imageFileName.length() != 0) {	//수정된 이미지파일을 폴더로 이동
+					String originalFileName = articleMap.get("originalFileName");
+					File srcFile = new File(ARTICLE_IMAGE_REPO + "\\" + "temp" + "\\" + imageFileName);
+					File destDir = new File(ARTICLE_IMAGE_REPO + "\\" + articleNO);
+					destDir.mkdirs();
+					FileUtils.moveFileToDirectory(srcFile, destDir, true);
+					
+					File oldFile = new File(ARTICLE_IMAGE_REPO + "\\" + articleNO + "\\" + originalFileName);
+					oldFile.delete();	//전송된 originalFileName으로 기존파일 삭제
+				}
+				
+				PrintWriter pw = response.getWriter();
+				//글 수정 후 location객체의 href속성으로 글상세화면을 보여줌
+				pw.print("<script>" + "  alert('글을 수정했습니다.');" + " location.href='" + request.getContextPath()
+						+ "/board/viewArticle.do?articleNO=" + articleNO + "';" + "</script>");
+				return;
+			
 			}else {
 				nextPage = "/board01/listArticles.jsp";
 			}

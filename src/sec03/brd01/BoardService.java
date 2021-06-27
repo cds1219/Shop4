@@ -23,4 +23,8 @@ public class BoardService {
 		article = boardDAO.selectArticle(articleNO);
 		return article;
 	}
+
+	public void modArticle(ArticleVO article) {
+		boardDAO.updateArticle(article);
+	}
 }
