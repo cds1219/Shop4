@@ -1,5 +1,6 @@
 package sec03.brd01;
 
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -113,4 +114,45 @@ public class BoardDAO {
 		return articleNO;	//SQL문으로 새글을 추가하고 새글번호를 반환
 		
 	}	//end insertNewArticle
+
+	public ArticleVO selectArticle(int articleNO) {
+		ArticleVO article=new ArticleVO();
+		try{
+		conn = dataFactory.getConnection();
+		String query ="select articleNO,parentNO,title,content,  NVL(imageFileName, 'null') as imageFileName, id, writeDate"
+			                     +" from t_board" 
+			                     +" where articleNO=?";	//전달받은 글번호로 정보를 조회
+		System.out.println(query);
+		pstmt = conn.prepareStatement(query);
+		pstmt.setInt(1, articleNO);
+		ResultSet rs =pstmt.executeQuery();
+		rs.next();
+		int _articleNO =rs.getInt("articleNO");
+		int parentNO=rs.getInt("parentNO");
+		String title = rs.getString("title");
+		String content =rs.getString("content");
+		String imageFileName = URLEncoder.encode(rs.getString("imageFileName"), "UTF-8"); //파일이름에 특수문자가 있을 경우 인코딩
+		if(imageFileName.equals("null")) {
+			imageFileName = null;
+		}
+		String id = rs.getString("id");
+		Date writeDate = rs.getDate("writeDate");
+
+		article.setArticleNO(_articleNO);
+		article.setParentNO (parentNO);
+		article.setTitle(title);
+		article.setContent(content);
+		article.setImageFileName(imageFileName);
+		article.setId(id);
+		article.setWriteDate(writeDate);
+		rs.close();
+		pstmt.close();
+		conn.close();
+		}catch(Exception e){
+		e.printStackTrace();	
+		}
+		return article;
+		
+	}
+	
 }	//end BoardDAO class

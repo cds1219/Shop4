@@ -92,6 +92,12 @@ public class BoardController extends HttpServlet {
 						//새글 등록 메시지를 나타낸 후 JS_location 객체의 링크를 글목록에 요청
 				return;
 				
+			}else if(action.equals("/viewArticle.do")){
+				String articleNO = request.getParameter("articleNO");	//글 상세창 요청 시 articleNO 값을 가져옴
+				articleVO=boardService.viewArticle(Integer.parseInt(articleNO));	//articleNO 글정보를 조회
+				request.setAttribute("article",articleVO);	//article 속성으로 바인딩
+				nextPage = "/board01/viewArticle.jsp";
+			
 			}else {
 				nextPage = "/board01/listArticles.jsp";
 			}

@@ -17,4 +17,10 @@ public class BoardService {
 	public int addArticle(ArticleVO article) {	//새글 번호를 컨트롤러로 반환
 		return boardDAO.insertNewArticle(article);
 	}
+
+	public ArticleVO viewArticle(int articleNO) {
+		ArticleVO article = null;
+		article = boardDAO.selectArticle(articleNO);
+		return article;
+	}
 }
