@@ -62,5 +62,55 @@ public class BoardDAO {
 			e.printStackTrace();
 		}
 		return articlesList;
+		
 	}
-}
+	
+	private int getNewArticleNO() {
+		try {
+			conn = dataFactory.getConnection();
+			String query = "SELECT  max(articleNO) from t_board ";	//기본 글 번호 중 가장 큰 번호 조회
+			System.out.println(query);
+			pstmt = conn.prepareStatement(query);
+			ResultSet rs = pstmt.executeQuery(query);
+			if (rs.next())
+				return (rs.getInt(1) + 1);	//가장 큰 번호에 1을 더해 반환
+			rs.close();
+			pstmt.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public int insertNewArticle(ArticleVO article) {
+		int articleNO = getNewArticleNO();	//새글을 추가하기 전에 새 글에 대한 번호를 가져옴
+		
+		try {
+			conn = dataFactory.getConnection();
+			int parentNO = article.getParentNO();
+			String title = article.getTitle();
+			String content = article.getContent();
+			String id = article.getId();
+			String imageFileName = article.getImageFileName();
+			String query = "INSERT INTO t_board (articleNO, parentNO, title, content, imageFileName, id)"
+					+ " VALUES (?, ? ,?, ?, ?, ?)";	//insert문으로 글 정보 추가
+			System.out.println(query);
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, articleNO);
+			pstmt.setInt(2, parentNO);
+			pstmt.setString(3, title);
+			pstmt.setString(4, content);
+			pstmt.setString(5, imageFileName);
+			pstmt.setString(6, id);
+			pstmt.executeUpdate();
+			pstmt.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return articleNO;	//SQL문으로 새글을 추가하고 새글번호를 반환
+		
+	}	//end insertNewArticle
+}	//end BoardDAO class

@@ -13,4 +13,8 @@ public class BoardService {
 		List<ArticleVO> articlesList = boardDAO.selectAllArticles();
 		return articlesList;
 	}
+
+	public int addArticle(ArticleVO article) {	//새글 번호를 컨트롤러로 반환
+		return boardDAO.insertNewArticle(article);
+	}
 }
