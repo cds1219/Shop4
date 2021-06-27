@@ -37,17 +37,19 @@
 	 }
 	 
 	 function fn_remove_article(url,articleNO){
-		 var form = document.createElement("form");
+		 var form = document.createElement("form");	//JS로 동적으로 form태그 생성
 		 form.setAttribute("method", "post");
 		 form.setAttribute("action", url);
-	     var articleNOInput = document.createElement("input");
-	     articleNOInput.setAttribute("type","hidden");
-	     articleNOInput.setAttribute("name","articleNO");
-	     articleNOInput.setAttribute("value", articleNO);
 		 
-	     form.appendChild(articleNOInput);
-	     document.body.appendChild(form);
-		 form.submit();
+	     var articleNOInput = document.createElement("input");	//JS로 동적으로 input태그 생성 후
+	     articleNOInput.setAttribute("type","hidden");			
+	     articleNOInput.setAttribute("name","articleNO");		//name를	articleNO와
+	     articleNOInput.setAttribute("value", articleNO);		//value를 컨트롤러로 글번호 설정
+		 
+	     form.appendChild(articleNOInput);	//input태그를 form태그에 append
+	     
+	     document.body.appendChild(form);	//form태그를 body태그에 append
+		 form.submit();						//서버에 요청
 	 
 	 }
 	 function readURL(input) {
@@ -133,6 +135,7 @@
   <tr  id="tr_btn"    >
    <td colspan=2 align=center>
 	    <input type=button value="수정하기" onClick="fn_enable(this.form)">
+	    <!-- 삭제하기 클릭 시 fn_remove_article JS함수 호출 & articleNO 전달 -->
 	    <input type=button value="삭제하기" onClick="fn_remove_article('${contextPath}/board/removeArticle.do', ${article.articleNO})">
 	    <input type=button value="리스트로 돌아가기"  onClick="backToList(this.form)">
 	     <input type=button value="답글쓰기"  onClick="fn_reply_form('${contextPath}/board/replyForm.do', ${article.articleNO})">
