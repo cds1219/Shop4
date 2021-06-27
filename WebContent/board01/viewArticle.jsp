@@ -52,6 +52,22 @@
 		 form.submit();						//서버에 요청
 	 
 	 }
+	 
+	 function fn_reply_form(url, parentNO){
+		 var form = document.createElement("form");
+		 form.setAttribute("method", "post");
+		 form.setAttribute("action", url);	//전달된 요청명을 form태그의  action 속성 값에 설정
+		 
+	     var parentNOInput = document.createElement("input");	//함수 호출 시 전달된 articleNO값을 input태그를 이용해 컨트롤러에 전달
+	     parentNOInput.setAttribute("type","hidden");	
+	     parentNOInput.setAttribute("name","parentNO");
+	     parentNOInput.setAttribute("value", parentNO);
+		 
+	     form.appendChild(parentNOInput);
+	     document.body.appendChild(form);
+		 form.submit();
+	 }
+	 
 	 function readURL(input) {
 	     if (input.files && input.files[0]) {
 	         var reader = new FileReader();
@@ -138,7 +154,8 @@
 	    <!-- 삭제하기 클릭 시 fn_remove_article JS함수 호출 & articleNO 전달 -->
 	    <input type=button value="삭제하기" onClick="fn_remove_article('${contextPath}/board/removeArticle.do', ${article.articleNO})">
 	    <input type=button value="리스트로 돌아가기"  onClick="backToList(this.form)">
-	     <input type=button value="답글쓰기"  onClick="fn_reply_form('${contextPath}/board/replyForm.do', ${article.articleNO})">
+	    <!-- 답글쓰기 클릭 시 fn_reply_form 함수 호출 & 요청명 & 글번호 전달 -->
+	    <input type=button value="답글쓰기"  onClick="fn_reply_form('${contextPath}/board/replyForm.do', ${article.articleNO})">
    </td>
   </tr>
  </table>

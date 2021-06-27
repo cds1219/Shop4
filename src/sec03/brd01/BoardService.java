@@ -33,4 +33,8 @@ public class BoardService {
 		boardDAO.deleteArticle(articleNO);
 		return articleNOList;	//삭제한 글번호목록을 컨트롤러로 반환
 	}
+
+	public int addReply(ArticleVO article) {
+		return boardDAO.insertNewArticle(article);
+	}
 }
