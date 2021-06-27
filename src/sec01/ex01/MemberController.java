@@ -53,6 +53,28 @@ public class MemberController extends HttpServlet {
 		}else if (action.equals("/memberForm.do")) {	//회원 가입창을 화면에 출력
 			nextPage = "/test01/memberForm.jsp";		//memberForm.jsp로 포워딩
 			
+		}else if(action.equals("/modMemberForm.do")) {		//회원 수정 창 요청
+			String id=request.getParameter("id");			//id로 요청
+		    MemberVO memInfo = memberDAO.findMember(id);	//수정 전 회원 정보를 조회
+		    request.setAttribute("memInfo", memInfo);		//request에 바인딩하여 수정 전 회원 정보 전달
+		    nextPage="/test01/modMemberForm.jsp";
+		    
+		}else if(action.equals("/modMember.do")){	//테이블의 회원 정보 수정
+			String id=request.getParameter("id");
+		    String pw=request.getParameter("pw");
+		    String name= request.getParameter("name");
+	        String address= request.getParameter("address");
+		    MemberVO memberVO = new MemberVO(id, pw, name, address);	//수정 창에서 전송된 정보로 MemberVO 설정
+		    memberDAO.modMember(memberVO);
+		    request.setAttribute("msg", "modified");	//회원 목록창으로 수정 작업 완료 메시지 전달
+		    nextPage="/member/listMembers.do";
+			
+		}else if(action.equals("/delMember.do")) {	//id를 SQL문으로 전달해 회원 삭제
+			String id=request.getParameter("id");
+		    memberDAO.delMember(id);
+		    request.setAttribute("msg", "deleted");	//회원 목록창으로 삭제 작업 완료 메시지 전달
+		    nextPage="/member/listMembers.do";
+			
 		}else {	//그 외 다른 action 값은 회원목록 출력
 			List<MemberVO> membersList = memberDAO.listMembers();	//회원정보 조회
 			request.setAttribute("membersList", membersList);		//회원정보 바인딩

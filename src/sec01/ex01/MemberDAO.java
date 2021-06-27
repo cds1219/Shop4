@@ -72,4 +72,64 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 	}
-}
+
+	public MemberVO findMember(String _id) {
+		MemberVO memInfo = null;
+		try {
+			conn = dataFactory.getConnection();
+			String query = "select * from  users where id=?";	//전달된 id로 정보 조회
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, _id);
+			System.out.println(query);
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			String id = rs.getString("id");
+			String pw = rs.getString("pw");
+			String name = rs.getString("name");
+			String address = rs.getString("address");
+			memInfo = new MemberVO(id, pw, name, address);
+			pstmt.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return memInfo;
+	}
+	
+	public void modMember(MemberVO memberVO) {
+		String id = memberVO.getId();
+		String pw = memberVO.getPw();
+		String name = memberVO.getName();
+		String address = memberVO.getAddress();
+		try {
+			conn = dataFactory.getConnection();
+			String query = "update users set pw=?,name=?,address=?  where id=?";	//전달된 정보를 update문으로 수정
+			System.out.println(query);
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, pw);
+			pstmt.setString(2, name);
+			pstmt.setString(3, address);
+			pstmt.setString(4, id);
+			pstmt.executeUpdate();	//SQL문 실행
+			pstmt.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void delMember(String id) {
+		try {
+			conn = dataFactory.getConnection();
+			String query = "delete from users where id=?";	//delete문으로 전달된 id의 회원 삭제
+			System.out.println(query);
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,id);
+			pstmt.executeUpdate();	//SQL문 실행
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+}//end MemberDAO
